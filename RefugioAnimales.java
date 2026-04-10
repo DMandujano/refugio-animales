@@ -16,6 +16,7 @@ public class RefugioAnimales {
         Map<String, String> estadoAnimal = new HashMap<>(); // lista que permite 2 valores (clave, valor) (nombre, estado)
         Set<String> especies = new HashSet<>(); // lista que no permite datos duplicados
         Map<String, String> animalEspecie = new HashMap<>(); // lista que permite 2 valores (clave, valor) (nombre, especie)
+        String[] descripciones = new String[50]; // descripción de cada especie
 
         int opcion; // una variable con tipo de valor entero
 
@@ -42,10 +43,40 @@ public class RefugioAnimales {
                 case 1:
                     registrarAnimales(sc, animales,especies ,animalEspecie , estadoAnimal);
                     break;
-                case 2:
-                    // funcion(variables a utilizar)
-                    registrarEspecie(sc, especies);
-                    break;
+                case 2 -> { // Bruno
+                    sc.nextLine(); // Consumir salto de línea pendiente
+                    System.out.print("Ingresa el nombre de la especie: ");
+                    String nombreEspecie = sc.nextLine().trim();
+
+                    // 1. VALIDAR que no esté vacío
+                    if (nombreEspecie.isEmpty()) {
+                        System.out.println("Error: El nombre de la especie no puede estar vacío.");
+                        break;
+                    }
+
+                    // 2. VALIDAR DUPLICADOS (antes no se verificaba)
+                    boolean especieDuplicada = false;
+                    for (int i = 0; i < contadorEspecies; i++) {
+                        if (catalogoEspecies[i].equalsIgnoreCase(nombreEspecie)) {
+                            especieDuplicada = true;
+                            break;
+                        }
+                    }
+
+                    if (especieDuplicada) {
+                        System.out.println("Error: Esa especie ya está registrada.");
+                    } else {
+                        System.out.print("Ingresa la descripción de la especie: ");
+                        String descripcionEspecie = sc.nextLine().trim();
+
+                        // 3. GUARDAR ambos datos (antes la descripción se perdía)
+                        catalogoEspecies[contadorEspecies] = nombreEspecie;
+                        descripciones[contadorEspecies] = descripcionEspecie; // ← nuevo array
+                        contadorEspecies++;
+
+                        System.out.println("Especie '" + nombreEspecie + "' registrada correctamente.");
+                    }
+                }
                 case 3:
                     //adoptarAniamles();
                     break;
