@@ -1,4 +1,4 @@
-# Refugio de Mascotas - Grupo 2
+# Refugio de Animales - Grupo 2
 
 ## Descripción del proyecto
 Este proyecto consiste en un programa de consola desarrollado en Java que simula un sistema simple de adopción de animales
