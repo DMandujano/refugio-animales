@@ -42,24 +42,29 @@ public class RefugioAnimales {
             switch (opcion) {
 
                 case 1 -> { // DANTE
+                    System.out.println("\n--- REGISTRO DE ANIMALES ---");
                     registrarAnimales(sc, animales, especies, animalEspecie, estadoAnimal);
                 }
 
                 case 2 -> { // BRUNO
+                    System.out.println("\n--- REGISTRO DE ESPECIES ---");
                     registrarEspecie(sc, especies);
                 }
 
                 case 3 -> { // FELIPE
+                    
                     // aquí irá la función para adoptar animales
                 }
 
                 case 4 -> { // ALLAN
-                    System.out.println("\n--- Lista de Animales Disponibles ---");
+                    System.out.println("\n--- LISTA DE ANIMALES DISPONIBLES ---");
                     mostrarAnimalesDisponibles(estadoAnimal);
                 }
 
                 case 5 -> { // DAFNE
-                    // aquí irá la función para mostrar animales adoptados
+                    System.out.println("\n--- LISTA DE ANIMALES ADOPTADOS ---");
+                    mostrarAnimalesAdoptados(estadoAnimal);
+                    
                 }
 
                 case 6 -> { // RENATO
@@ -162,5 +167,29 @@ public class RefugioAnimales {
             System.out.println("No hay animales disponibles para adopción en este momento.");
         }
     }
+
+    // OPCION 5
+    public static void mostrarAnimalesAdoptados(Map<String, String> estadoAnimal) {
+
+    if (estadoAnimal.isEmpty()) {
+        System.out.println("No hay animales registrados.");
+        return;
+    }
+
+    boolean hayAdoptados = false;
+
+    // recorremos el mapa
+    for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
+
+        if (entry.getValue().equalsIgnoreCase("Adoptado")) {
+            System.out.println(" - " + entry.getKey());
+            hayAdoptados = true;
+        }
+    }
+
+    if (!hayAdoptados) {
+        System.out.println("No hay animales adoptados.");
+    }
+}
 
 }
