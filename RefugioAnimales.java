@@ -9,19 +9,20 @@ import java.util.Scanner;
 public class RefugioAnimales {
 
     public static void main(String[] args) {
-        // llamar al scanner
+
         Scanner sc = new Scanner(System.in);
 
-        List<String> animales = new ArrayList<>(); // lista de animales donde guardara datos
-        Map<String, String> estadoAnimal = new HashMap<>(); // lista que permite 2 valores (clave, valor) (nombre, estado)
-        Set<String> especies = new HashSet<>(); // lista que no permite datos duplicados
-        Map<String, String> animalEspecie = new HashMap<>(); // lista que permite 2 valores (clave, valor) (nombre, especie)
+        List<String> animales = new ArrayList<>(); 
+        Map<String, String> estadoAnimal = new HashMap<>(); 
+        Set<String> especies = new HashSet<>(); 
+        Map<String, String> animalEspecie = new HashMap<>();
 
-        int opcion; // una variable con tipo de valor entero
+        int opcion;
 
         // ================================
         //      MENU DE OPCIONES
         // ================================
+
         do {
             System.out.println("================================");
             System.out.println("========= Refugio animal =========");
@@ -30,40 +31,48 @@ public class RefugioAnimales {
             System.out.println("2. Registrar especie");
             System.out.println("3. Marcar animal como adoptado");
             System.out.println("4. Mostrar animales disponibles");
-            System.out.println("5. mostrar animales adoptados");
-            System.out.println("6. mostrar reporte general");//Aqui arregle por el estaba muy pegado
+            System.out.println("5. Mostrar animales adoptados");
+            System.out.println("6. Mostrar reporte general");
             System.out.println("7. Salir");
-            System.out.print("Select an option: ");
+            System.out.print("Selecciona una opción: ");
+
             opcion = sc.nextInt();
-            sc.nextLine(); // Limpia el buffer
+            sc.nextLine(); // limpia buffer
 
             switch (opcion) {
 
-                case 1:
-                    registrarAnimales(sc, animales,especies ,animalEspecie , estadoAnimal);
-                    break;
-                case 2:
-                    // funcion(variables a utilizar)
-                    registrarEspecie(sc, especies);
-                    break;
-                case 3:
-                    //adoptarAniamles();
-                    break;
-                case 4:
-                    mostrarAnimalesDisponibles(estadoAnimal);
-                    break;
-                case 5:
-                    //mostrarPorEstado();
-                    break;
-                case 6:
-                    //reporte();
-                    break;
-                case 7:
-                    System.out.println("saliendo del sistema...");
-                    break;
+                case 1 -> {
+                    registrarAnimales(sc, animales, especies, animalEspecie, estadoAnimal);
+                }
 
-                default:
-                    System.out.println("Opcion invalida");
+                case 2 -> {
+                    registrarEspecie(sc, especies);
+                }
+
+                case 3 -> {
+                    // aquí irá la función para adoptar animales
+                }
+
+                case 4 -> {
+                    System.out.println("\n--- Lista de Animales Disponibles ---");
+                    mostrarAnimalesDisponibles(estadoAnimal);
+                }
+
+                case 5 -> {
+                    // aquí irá la función para mostrar animales adoptados
+                }
+
+                case 6 -> {
+                    // aquí irá el reporte general
+                }
+
+                case 7 -> {
+                    System.out.println("Saliendo del sistema...");
+                }
+
+                default -> {
+                    System.out.println("Opción inválida");
+                }
             }
 
         } while (opcion != 7);
@@ -71,90 +80,86 @@ public class RefugioAnimales {
         sc.close();
     }
 
-
+    // ================================
     // FUNCIONES
+    // ================================
+
     public static void registrarEspecie(Scanner scanner, Set<String> especies) {
-        // Que necesitamos?
-        // registrar una especie
-        // llamar al scanner
-        // llamar a la lista de especies
 
         System.out.println("Ingrese la especie: ");
-        String nombreEspecie = scanner.nextLine().trim(); // trim quita espacios adelante y detras del codigo
-        // ingresar una especie dependiendo del dato del usuario.
-        // "SI" especie(lo que manda el usuario) se encuentra dentro de la lista especies
+        String nombreEspecie = scanner.nextLine().trim();
+
+        // verificamos si la especie ya existe
         if (especies.contains(nombreEspecie)) {
             System.out.println("La especie ya fue registrada, intenta con otra");
-
-            // "SI NO" esta especie(lo que manda el usuario) entonces tienes que agregar a la lista especies.
         } else {
-            // agrega a la lista de especies
-            especies.add(nombreEspecie);
-            // la especie / lo que escribe el usuario / fue agregada
-            System.out.println("La especie " + nombreEspecie + " fue agregada con exito");
-        }
 
+            // si no existe se agrega al set
+            especies.add(nombreEspecie);
+            System.out.println("La especie " + nombreEspecie + " fue agregada con éxito");
+        }
     }
 
-    public static void registrarAnimales(Scanner scanner,
-                                        List<String> animales,
-                                        Set<String> especies,
-                                        Map<String, String> animalEspecie,
-                                        Map<String, String> estadoAnimal) {
-        // nombre
-        // especie
-        // verficicar si esta o no
 
-        //preguntar al usuario el nombre del animal.
-        System.out.println("Ingresa el nombre de tu mascota: ");
-        // preguntar al usuario
-        String inputNameAnimal = scanner.nextLine().trim(); // eliminar espacios delante y detras del codigo.
-        // consultar en la lista de animales si el nombre del animal ya esta.
-        if (animales.contains(inputNameAnimal)) {
-            System.out.println("El nombre de este animal ya se encuentra registrado, intenta con otro. ");
+    public static void registrarAnimales(Scanner scanner,
+                                         List<String> animales,
+                                         Set<String> especies,
+                                         Map<String, String> animalEspecie,
+                                         Map<String, String> estadoAnimal) {
+
+        System.out.println("\n--- Registro de Nuevo Animal ---");
+        System.out.print("Ingresa el nombre del animal: ");
+        String inputNameAnimal = scanner.nextLine().trim();
+
+        // validar si el animal ya existe
+        if (animales.stream().anyMatch(a -> a.equalsIgnoreCase(inputNameAnimal))) {
+            System.out.println("Error: El nombre '" + inputNameAnimal + "' ya está registrado.");
             return;
         }
 
-        System.out.println("Ingresa el nombre de la especie: ");
-        // preguntar al usuario.
+        System.out.print("Ingresa el nombre de la especie: ");
         String inputEspecie = scanner.nextLine().trim();
 
-        // validar que la especie exista.
-        if (especies.contains(inputEspecie)) {
-            System.out.println("La especie ya existe.");
+        // validar que la especie exista
+        if (!especies.contains(inputEspecie)) {
+            System.out.println("Error: La especie '" + inputEspecie + "' no existe en el catálogo. Regístrela primero en la opción 2.");
             return;
-
         }
-        // agregar el animal y la especie a la lista.
+
+        // guardar datos
         animales.add(inputNameAnimal);
-        // agregar el animal y la especie a las listas de animalEspecie
         animalEspecie.put(inputNameAnimal, inputEspecie);
-        // agregar el animal y como opcion por defecto el disponible al estado en la lista estadoAnimal
         estadoAnimal.put(inputNameAnimal, "Disponible");
 
         System.out.println("Animal registrado exitosamente.");
-
-        }
-
-
-        // opcion 4
-        public static void mostrarAnimalesDisponibles(Map<String, String> estadoAnimal) {
-        // mostramos un mensaje si el campo del estado esta vacio.
-                if (estadoAnimal.isEmpty()) { // si la lista de estadoAnimal esta vacia entonces mostramos el mensaje de no hay animales registrados.
-                    System.out.println(" No hay animales registrados. ");
-
-                }else { // en caso de que haya animales registrados entonces mostramos el mensaje de animales disponibles y recorremos el mapa para mostrar los animales disponibles.
-                    // reccoremos el mapa
-                    estadoAnimal.forEach((nombre, estado ) -> {
-                        // mostramos solo si hay animales disponibles
-                        if (estado.equalsIgnoreCase("disponible")) { // si el estado del animal es igual a disponible entonces mostramos el nombre del animal.
-                            System.out.println(" - " + nombre);
-                        }
-                    });
-
-                }
-
     }
 
+
+    public static void mostrarAnimalesDisponibles(Map<String, String> estadoAnimal) {
+
+        if (estadoAnimal.isEmpty()) {
+            System.out.println("No hay animales registrados.");
+            return;
+        }
+
+        // Se cambió el recorrido forEach por un ciclo for para poder usar la variable
+        // hayDisponibles y así verificar si existe al menos un animal disponible
+        // Esto permite mostrar un mensaje si no se encuentra ninguno
+        boolean hayDisponibles = false;
+
+        // recorremos el mapa
+        for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
+
+            if (entry.getValue().equalsIgnoreCase("Disponible")) {
+                System.out.println(" - " + entry.getKey());
+                hayDisponibles = true;
+            }
+        }
+
+        // si no se encontró ninguno disponible
+        if (!hayDisponibles) {
+            System.out.println("No hay animales disponibles para adopción en este momento.");
+        }
+    }
 
 }
