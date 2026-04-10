@@ -98,7 +98,7 @@ public class RefugioAnimales {
 
         // verificamos si la especie ya existe
         if (especies.contains(nombreEspecie)) {
-            System.out.println("La especie ya fue registrada, intenta con otra");
+            System.out.println("La especie ya fue registrada, error intente nuevamente");
         } else {
 
             // si no existe se agrega al set
