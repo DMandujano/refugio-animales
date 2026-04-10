@@ -7,16 +7,11 @@
 
 ## Cómo contribuir
 
-1. Haz un fork del repositorio
-2. Crea una rama para tu cambio:
-   ```
-   git checkout -b feature/nombre-de-tu-funcion
-   ```
-3. Realiza tus cambios y haz commit:
-   ```
-   git commit -m "feat: descripción breve del cambio"
-   ```
-4. Sube tu rama y abre un Pull Request hacia `main`
+1. Haz un fork del repositorio (desmarca que solo clone la rama main)
+2. Cambia a la rama `testing`
+3. Agrega tus cambios a la estacion de trabajo y haz commit de tus camcios siguiendo la convencion de commits
+4. Haz git push hacia tu repositorio 
+5. En github crea un Pull Request hacia la rama testing
 
 ## Convenciones de código
 

@@ -42,24 +42,30 @@ public class RefugioAnimales {
             switch (opcion) {
 
                 case 1 -> { // DANTE
+                    System.out.println("\n--- REGISTRO DE ANIMALES ---");
                     registrarAnimales(sc, animales, especies, animalEspecie, estadoAnimal);
                 }
 
                 case 2 -> { // BRUNO
+                    System.out.println("\n--- REGISTRO DE ESPECIES ---");
                     registrarEspecie(sc, especies);
                 }
 
-                case 3 -> { // FELIPE
-                    // aquí irá la función para adoptar animales
+                case 3 ->{ // FELIPE
+                    adoptarAnimal(sc, estadoAnimal);
                 }
+                
 
                 case 4 -> { // ALLAN
+                    System.out.println("\n--- LISTA DE ANIMALES DISPONIBLES ---");
                     mostrarAnimalesDisponibles(estadoAnimal);
 
                 }
 
                 case 5 -> { // DAFNE
-                    // aquí irá la función para mostrar animales adoptados
+                    System.out.println("\n--- LISTA DE ANIMALES ADOPTADOS ---");
+                    mostrarAnimalesAdoptados(estadoAnimal);
+                    
                 }
 
                 case 6 -> { // RENATO
@@ -134,7 +140,52 @@ public class RefugioAnimales {
 
         System.out.println("Animal registrado exitosamente.");
     }
+    // OPCION 3
+        public static void adoptarAnimal(Scanner scanner, Map<String, String> estadoAnimal) {
+        System.out.println("\n--- ADOPTAR UN ANIMAL ---");
 
+        if (estadoAnimal.isEmpty()) {
+            System.out.println("No hay animales registrados en el refugio.");
+            return;
+        }
+
+        System.out.println("Animales esperando un hogar:");
+        boolean hayDisponibles = false;
+
+        // Mostramos los animales disponibles
+        for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
+            if (entry.getValue().equalsIgnoreCase("Disponible")) {
+                System.out.println(" - " + entry.getKey());
+                hayDisponibles = true;
+            }
+        }
+
+        // Si no hay disponibles, terminamos la función aquí
+        if (!hayDisponibles) {
+            System.out.println("No hay animales disponibles en este momento.");
+            return;
+        }
+
+        // Si hay disponibles, preguntamos cuál quiere
+        System.out.print("\nEscribe el nombre del animal a adoptar: ");
+        String nombreAAdoptar = scanner.nextLine().trim();
+
+        // Buscamos si el animal existe en el mapa
+        if (estadoAnimal.containsKey(nombreAAdoptar)) {
+            
+            // Verificamos si ya estaba adoptado
+            if (estadoAnimal.get(nombreAAdoptar).equalsIgnoreCase("Adoptado")) {
+                System.out.println("Error: '" + nombreAAdoptar + "' ya fue adoptado previamente.");
+            } else {
+                // Hacemos la adopción cambiando el valor en el mapa
+                estadoAnimal.put(nombreAAdoptar, "Adoptado");
+                System.out.println("¡Éxito! '" + nombreAAdoptar + "' ha sido adoptado.");
+            }
+            
+        } else {
+            System.out.println("Error: Ese animal no está registrado.");
+        }
+    }
     // OPCION 4
     public static void mostrarAnimalesDisponibles(Map<String, String> estadoAnimal) {
         System.out.println("\n--- Lista de Animales Disponibles ---");
@@ -163,29 +214,54 @@ public class RefugioAnimales {
         }
     }
 
+    // OPCION 5
+    public static void mostrarAnimalesAdoptados(Map<String, String> estadoAnimal) {
+
+        if (estadoAnimal.isEmpty()) {
+            System.out.println("No hay animales registrados.");
+            return;
+        }
+
+        boolean hayAdoptados = false;
+
+        // recorremos el mapa
+        for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
+
+            if (entry.getValue().equalsIgnoreCase("Adoptado")) {
+                System.out.println(" - " + entry.getKey());
+                hayAdoptados = true;
+            }
+        }
+
+        if (!hayAdoptados) {
+            System.out.println("No hay animales adoptados.");
+        }
+    }
+    
+    // OPCION 6
     public static void mostrarReporteGeneral(List<String> animales, Set<String> especies, Map<String, String> animalEspecie, Map<String, String> estadoAnimal) {
 
-    if (animales.isEmpty()) {   // Si no hay animales registrados, mostramos un mensaje y salimos
-        System.out.println("No hay animales registrados.");
-        return;
+        if (animales.isEmpty()) {   // Si no hay animales registrados, mostramos un mensaje y salimos
+            System.out.println("No hay animales registrados.");
+            return;
+        }
+        // Contamos cuántos animales están disponibles y cuántos adoptados
+        long disponibles = estadoAnimal.values().stream().filter(e -> e.equalsIgnoreCase("Disponible")).count();
+        long adoptados = estadoAnimal.values().stream().filter(e -> e.equalsIgnoreCase("Adoptado")).count();
+        // Imprimimos el reporte general
+        System.out.println("\n========== REPORTE GENERAL ==========");
+        System.out.println("Total animales registrados : " + animales.size());
+        System.out.println("  - Disponibles            : " + disponibles);
+        System.out.println("  - Adoptados              : " + adoptados);
+        System.out.println("Total especies registradas : " + especies.size());
+        System.out.println("-------------------------------------");
+        System.out.println("Detalle:");
+        for (String animal : animales) {    // Recorremos la lista de animales para mostrar su detalle
+            String especie = animalEspecie.get(animal);
+            String estado = estadoAnimal.get(animal);
+            System.out.println("  - " + animal + " | " + especie + " | " + estado);
+        }
+        System.out.println("=====================================");
     }
-    // Contamos cuántos animales están disponibles y cuántos adoptados
-    long disponibles = estadoAnimal.values().stream().filter(e -> e.equalsIgnoreCase("Disponible")).count();
-    long adoptados = estadoAnimal.values().stream().filter(e -> e.equalsIgnoreCase("Adoptado")).count();
-    // Imprimimos el reporte general
-    System.out.println("\n========== REPORTE GENERAL ==========");
-    System.out.println("Total animales registrados : " + animales.size());
-    System.out.println("  - Disponibles            : " + disponibles);
-    System.out.println("  - Adoptados              : " + adoptados);
-    System.out.println("Total especies registradas : " + especies.size());
-    System.out.println("-------------------------------------");
-    System.out.println("Detalle:");
-    for (String animal : animales) {    // Recorremos la lista de animales para mostrar su detalle
-        String especie = animalEspecie.get(animal);
-        String estado = estadoAnimal.get(animal);
-        System.out.println("  - " + animal + " | " + especie + " | " + estado);
-    }
-    System.out.println("=====================================");
-}
 
 }
