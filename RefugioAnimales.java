@@ -25,7 +25,7 @@ public class RefugioAnimales {
 
         do {
             System.out.println("================================");
-            System.out.println("========= Refugio animal =========");
+            System.out.println("========= REFUGIO ANIMAL =========");
             System.out.println("================================");
             System.out.println("1. Registrar un nuevo animal");
             System.out.println("2. Registrar especie");
@@ -41,28 +41,28 @@ public class RefugioAnimales {
 
             switch (opcion) {
 
-                case 1 -> {
+                case 1 -> { // DANTE
                     registrarAnimales(sc, animales, especies, animalEspecie, estadoAnimal);
                 }
 
-                case 2 -> {
+                case 2 -> { // BRUNO
                     registrarEspecie(sc, especies);
                 }
 
-                case 3 -> {
+                case 3 -> { // FELIPE
                     // aquí irá la función para adoptar animales
                 }
 
-                case 4 -> {
+                case 4 -> { // ALLAN
                     System.out.println("\n--- Lista de Animales Disponibles ---");
                     mostrarAnimalesDisponibles(estadoAnimal);
                 }
 
-                case 5 -> {
+                case 5 -> { // DAFNE
                     // aquí irá la función para mostrar animales adoptados
                 }
 
-                case 6 -> {
+                case 6 -> { // RENATO
                     // aquí irá el reporte general
                 }
 
@@ -84,6 +84,7 @@ public class RefugioAnimales {
     // FUNCIONES
     // ================================
 
+    // OPCION 2
     public static void registrarEspecie(Scanner scanner, Set<String> especies) {
 
         System.out.println("Ingrese la especie: ");
@@ -100,12 +101,12 @@ public class RefugioAnimales {
         }
     }
 
-
+    // OPCION 1
     public static void registrarAnimales(Scanner scanner,
-                                         List<String> animales,
-                                         Set<String> especies,
-                                         Map<String, String> animalEspecie,
-                                         Map<String, String> estadoAnimal) {
+                                        List<String> animales,
+                                        Set<String> especies,
+                                        Map<String, String> animalEspecie,
+                                        Map<String, String> estadoAnimal) {
 
         System.out.println("\n--- Registro de Nuevo Animal ---");
         System.out.print("Ingresa el nombre del animal: ");
@@ -134,7 +135,7 @@ public class RefugioAnimales {
         System.out.println("Animal registrado exitosamente.");
     }
 
-
+    // OPCION 4
     public static void mostrarAnimalesDisponibles(Map<String, String> estadoAnimal) {
 
         if (estadoAnimal.isEmpty()) {
