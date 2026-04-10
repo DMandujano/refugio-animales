@@ -51,10 +51,10 @@ public class RefugioAnimales {
                     registrarEspecie(sc, especies);
                 }
 
-                case 3 -> { // FELIPE
-
-                    // aquí irá la función para adoptar animales
+                case 3 ->{ // FELIPE
+                    adoptarAnimal(sc, estadoAnimal);
                 }
+                
 
                 case 4 -> { // ALLAN
                     System.out.println("\n--- LISTA DE ANIMALES DISPONIBLES ---");
@@ -98,7 +98,7 @@ public class RefugioAnimales {
 
         // verificamos si la especie ya existe
         if (especies.contains(nombreEspecie)) {
-            System.out.println("La especie ya fue registrada, error intente nuevamente");
+            System.out.println("La especie ya fue registrada, intenta con otra");
         } else {
 
             // si no existe se agrega al set
@@ -140,7 +140,52 @@ public class RefugioAnimales {
 
         System.out.println("Animal registrado exitosamente.");
     }
+    // OPCION 3
+        public static void adoptarAnimal(Scanner scanner, Map<String, String> estadoAnimal) {
+        System.out.println("\n--- ADOPTAR UN ANIMAL ---");
 
+        if (estadoAnimal.isEmpty()) {
+            System.out.println("No hay animales registrados en el refugio.");
+            return;
+        }
+
+        System.out.println("Animales esperando un hogar:");
+        boolean hayDisponibles = false;
+
+        // Mostramos los animales disponibles
+        for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
+            if (entry.getValue().equalsIgnoreCase("Disponible")) {
+                System.out.println(" - " + entry.getKey());
+                hayDisponibles = true;
+            }
+        }
+
+        // Si no hay disponibles, terminamos la función aquí
+        if (!hayDisponibles) {
+            System.out.println("No hay animales disponibles en este momento.");
+            return;
+        }
+
+        // Si hay disponibles, preguntamos cuál quiere
+        System.out.print("\nEscribe el nombre del animal a adoptar: ");
+        String nombreAAdoptar = scanner.nextLine().trim();
+
+        // Buscamos si el animal existe en el mapa
+        if (estadoAnimal.containsKey(nombreAAdoptar)) {
+            
+            // Verificamos si ya estaba adoptado
+            if (estadoAnimal.get(nombreAAdoptar).equalsIgnoreCase("Adoptado")) {
+                System.out.println("Error: '" + nombreAAdoptar + "' ya fue adoptado previamente.");
+            } else {
+                // Hacemos la adopción cambiando el valor en el mapa
+                estadoAnimal.put(nombreAAdoptar, "Adoptado");
+                System.out.println("¡Éxito! '" + nombreAAdoptar + "' ha sido adoptado.");
+            }
+            
+        } else {
+            System.out.println("Error: Ese animal no está registrado.");
+        }
+    }
     // OPCION 4
     public static void mostrarAnimalesDisponibles(Map<String, String> estadoAnimal) {
         System.out.println("\n--- Lista de Animales Disponibles ---");
