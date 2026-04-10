@@ -52,13 +52,14 @@ public class RefugioAnimales {
                 }
 
                 case 3 -> { // FELIPE
-                    
+
                     // aquí irá la función para adoptar animales
                 }
 
                 case 4 -> { // ALLAN
                     System.out.println("\n--- LISTA DE ANIMALES DISPONIBLES ---");
                     mostrarAnimalesDisponibles(estadoAnimal);
+
                 }
 
                 case 5 -> { // DAFNE
@@ -68,7 +69,7 @@ public class RefugioAnimales {
                 }
 
                 case 6 -> { // RENATO
-                    // aquí irá el reporte general
+                    mostrarReporteGeneral(animales, especies, animalEspecie, estadoAnimal);
                 }
 
                 case 7 -> {
@@ -93,7 +94,7 @@ public class RefugioAnimales {
     public static void registrarEspecie(Scanner scanner, Set<String> especies) {
 
         System.out.println("Ingrese la especie: ");
-        String nombreEspecie = scanner.nextLine().trim();
+        String nombreEspecie = scanner.nextLine().trim().toLowerCase();
 
         // verificamos si la especie ya existe
         if (especies.contains(nombreEspecie)) {
@@ -124,7 +125,7 @@ public class RefugioAnimales {
         }
 
         System.out.print("Ingresa el nombre de la especie: ");
-        String inputEspecie = scanner.nextLine().trim();
+        String inputEspecie = scanner.nextLine().trim().toLowerCase();
 
         // validar que la especie exista
         if (!especies.contains(inputEspecie)) {
@@ -142,7 +143,7 @@ public class RefugioAnimales {
 
     // OPCION 4
     public static void mostrarAnimalesDisponibles(Map<String, String> estadoAnimal) {
-
+        System.out.println("\n--- Lista de Animales Disponibles ---");
         if (estadoAnimal.isEmpty()) {
             System.out.println("No hay animales registrados.");
             return;
@@ -171,25 +172,51 @@ public class RefugioAnimales {
     // OPCION 5
     public static void mostrarAnimalesAdoptados(Map<String, String> estadoAnimal) {
 
-    if (estadoAnimal.isEmpty()) {
-        System.out.println("No hay animales registrados.");
-        return;
-    }
+        if (estadoAnimal.isEmpty()) {
+            System.out.println("No hay animales registrados.");
+            return;
+        }
 
-    boolean hayAdoptados = false;
+        boolean hayAdoptados = false;
 
-    // recorremos el mapa
-    for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
+        // recorremos el mapa
+        for (Map.Entry<String, String> entry : estadoAnimal.entrySet()) {
 
-        if (entry.getValue().equalsIgnoreCase("Adoptado")) {
-            System.out.println(" - " + entry.getKey());
-            hayAdoptados = true;
+            if (entry.getValue().equalsIgnoreCase("Adoptado")) {
+                System.out.println(" - " + entry.getKey());
+                hayAdoptados = true;
+            }
+        }
+
+        if (!hayAdoptados) {
+            System.out.println("No hay animales adoptados.");
         }
     }
+    
+    // OPCION 6
+    public static void mostrarReporteGeneral(List<String> animales, Set<String> especies, Map<String, String> animalEspecie, Map<String, String> estadoAnimal) {
 
-    if (!hayAdoptados) {
-        System.out.println("No hay animales adoptados.");
+        if (animales.isEmpty()) {   // Si no hay animales registrados, mostramos un mensaje y salimos
+            System.out.println("No hay animales registrados.");
+            return;
+        }
+        // Contamos cuántos animales están disponibles y cuántos adoptados
+        long disponibles = estadoAnimal.values().stream().filter(e -> e.equalsIgnoreCase("Disponible")).count();
+        long adoptados = estadoAnimal.values().stream().filter(e -> e.equalsIgnoreCase("Adoptado")).count();
+        // Imprimimos el reporte general
+        System.out.println("\n========== REPORTE GENERAL ==========");
+        System.out.println("Total animales registrados : " + animales.size());
+        System.out.println("  - Disponibles            : " + disponibles);
+        System.out.println("  - Adoptados              : " + adoptados);
+        System.out.println("Total especies registradas : " + especies.size());
+        System.out.println("-------------------------------------");
+        System.out.println("Detalle:");
+        for (String animal : animales) {    // Recorremos la lista de animales para mostrar su detalle
+            String especie = animalEspecie.get(animal);
+            String estado = estadoAnimal.get(animal);
+            System.out.println("  - " + animal + " | " + especie + " | " + estado);
+        }
+        System.out.println("=====================================");
     }
-}
 
 }
